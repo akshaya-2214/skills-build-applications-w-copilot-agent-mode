@@ -31,7 +31,10 @@ class Command(BaseCommand):
         ]
         user_objs = []
         for u in users:
-            user = get_user_model().objects.create_user(email=u['email'], username=u['username'], password='password', team=u['team'])
+            # Ensure password is not empty and set properly
+            user = get_user_model().objects.create_user(email=u['email'], username=u['username'], team=u['team'])
+            user.set_password('password')
+            user.save()
             user_objs.append(user)
 
         # Create Workouts
